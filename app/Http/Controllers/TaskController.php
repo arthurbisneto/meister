@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
-        return view('index', compact('tasks'));
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -20,7 +21,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('tasks.create');
     }
 
     /**
@@ -35,19 +36,28 @@ class TaskController extends Controller
         ]);
 
         Task::create($request->all());
-        return redirect()->route('index')->with('success', 'Task created successfully.');
-  
+        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
     }
+
+    /**
+     * Display the specified resource.
+     */
     public function show(Task $task)
     {
-        return view('show', compact('task'));
+        return view('tasks.show', compact('task'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Task $task)
     {
-        return view('edit', compact('task'));
+        return view('tasks.edit', compact('task'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, Task $task)
     {
         $request->validate([
@@ -57,12 +67,15 @@ class TaskController extends Controller
         ]);
 
         $task->update($request->all());
-        return redirect()->route('index')->with('success', 'Task updated successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Task $task)
     {
         $task->delete();
-        return redirect()->route('index')->with('success', 'Task deleted successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
 }
