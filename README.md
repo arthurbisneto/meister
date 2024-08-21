@@ -1,66 +1,135 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - README</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    <h1>Task Manager</h1>
 
-## About Laravel
+    <p>Task Manager is a simple web application built using Zend Framework, PHPUnit, and MySQL. It allows users to manage tasks with fields such as title, description, date created, and status (pending, in progress, or completed). The application supports basic CRUD operations, search, and sorting functionality.</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    <h2>Features</h2>
+    <ul>
+        <li><strong>Create, Read, Update, Delete (CRUD) Tasks:</strong> Manage your tasks easily with intuitive forms and validations.</li>
+        <li><strong>Search and Filter:</strong> Quickly find tasks by title or description.</li>
+        <li><strong>Sorting:</strong> Sort tasks by title, description, or date created.</li>
+        <li><strong>Responsive Design:</strong> Optimized for various devices with Bootstrap.</li>
+        <li><strong>Unit Testing:</strong> Ensured code quality with PHPUnit.</li>
+    </ul>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+    <h2>Technologies Used</h2>
+    <ul>
+        <li><strong>Backend:</strong> Zend Framework (PHP)</li>
+        <li><strong>Database:</strong> MySQL</li>
+        <li><strong>Frontend:</strong> Bootstrap, jQuery</li>
+        <li><strong>Testing:</strong> PHPUnit</li>
+    </ul>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    <h2>Prerequisites</h2>
+    <ul>
+        <li>PHP 8.2 or higher</li>
+        <li>MySQL 5.7 or higher</li>
+        <li>Composer</li>
+        <li>Apache Web Server</li>
+    </ul>
 
-## Learning Laravel
+    <h2>Installation</h2>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    <h3>1. Clone the repository:</h3>
+    <pre><code>git clone https://github.com/your-username/task-manager.git
+cd task-manager</code></pre>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+    <h3>2. Install PHP dependencies:</h3>
+    <pre><code>composer install</code></pre>
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+    <h3>3. Set up the database:</h3>
+    <p>Create a MySQL database:</p>
+    <pre><code>CREATE DATABASE task_manager;
+CREATE USER 'taskuser'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON task_manager.* TO 'taskuser'@'localhost';
+FLUSH PRIVILEGES;</code></pre>
+    <p>Run the SQL script to create the tasks table:</p>
+    <pre><code>CREATE TABLE tasks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    datecreated DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'in progress', 'completed') DEFAULT 'pending'
+);</code></pre>
 
-## Laravel Sponsors
+    <h3>4. Configure the application:</h3>
+    <p>Copy the provided example configuration:</p>
+    <pre><code>cp config/autoload/local.php.dist config/autoload/local.php</code></pre>
+    <p>Update <code>local.php</code> with your database credentials.</p>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+    <h3>5. Set up Apache:</h3>
+    <p>Create a virtual host for the application:</p>
+    <pre><code>sudo nano /etc/apache2/sites-available/task-manager.conf</code></pre>
+    <p>Add the following configuration:</p>
+    <pre><code>&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html/task-manager/public
+    &lt;Directory /var/www/html/task-manager/public&gt;
+        DirectoryIndex index.php
+        AllowOverride All
+        Require all granted
+    &lt;/Directory&gt;
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+    <p>Enable the site and rewrite module:</p>
+    <pre><code>sudo a2ensite task-manager
+sudo a2enmod rewrite
+sudo systemctl reload apache2</code></pre>
 
-### Premium Partners
+    <h3>6. Access the application:</h3>
+    <p>Open your web browser and go to <code>http://your-server-ip/</code> to start using the Task Manager.</p>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    <h2>Running Tests</h2>
+    <p>To run unit tests using PHPUnit, navigate to the project directory and execute:</p>
+    <pre><code>phpunit</code></pre>
 
-## Contributing
+    <h2>Contributing</h2>
+    <p>Contributions are welcome! Please submit a pull request or open an issue to discuss any changes or improvements.</p>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    <h2>License</h2>
+    <p>This project is licensed under the MIT License. See the <a href="LICENSE">LICENSE</a> file for details.</p>
 
-## Code of Conduct
+    <h2>Contact</h2>
+    <p>If you have any questions or need support, feel free to reach out via <a href="mailto:your-email@example.com">your-email@example.com</a>.</p>
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+</body>
+</html>
