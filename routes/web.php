@@ -28,4 +28,4 @@ Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
 Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
 
 // Route to delete a task
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');  
+Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy');  

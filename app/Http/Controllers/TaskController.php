@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -29,9 +30,17 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
+        // Check if the current day is a weekday
+        $currentDay = Carbon::now()->dayOfWeek; // 0 (Sunday) through 6 (Saturday)
+        if ($currentDay == Carbon::SATURDAY || $currentDay == Carbon::SUNDAY) {
+            return redirect()->back()->withErrors('Tasks can only be created during weekdays.');
+        }
+
+
         $request->validate([
             'title' => 'required',
             'datecreated' => 'required|date',
+            'description' => 'nullable|string',
             'status' => 'required|in:pending,in progress,completed',
         ]);
 
@@ -66,6 +75,12 @@ class TaskController extends Controller
             'status' => 'required|in:pending,in progress,completed',
         ]);
 
+         // Check if the status is 'pending'
+        if ($task->status !== 'pending') {
+            return redirect()->back()->withErrors('Tasks can only be updated if they are in "pending" status.');
+        }
+
+
         $task->update($request->all());
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
@@ -73,9 +88,21 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
+        $task = Task::findOrFail($id);
+    
+        // Check if the task is older than 5 days
+        $creationDate = Carbon::parse($task->created_at);
+        $fiveDaysAgo = Carbon::now()->subDays(5);
+    
+        if ($creationDate > $fiveDaysAgo) {
+            return redirect()->back()->withErrors('Tasks can only be deleted if they are older than 5 days.');
+        }
+    
         $task->delete();
+    
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
+    
 }

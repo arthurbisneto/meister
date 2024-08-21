@@ -19,13 +19,14 @@
             <td>{{ $task->datecreated }}</td>
             <td>{{ $task->status }}</td>
             <td>
-                <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-info">Show</a>
+              
                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary">Edit</a>
-                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
+                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="delete-form">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
+               
             </td>
         </tr>
         @endforeach
